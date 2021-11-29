@@ -1,0 +1,22 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="MFA_orgChart_migration:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MFA_orgChart_migration_jar</output-path>
+    <root id="root">
+      <element id="archive" name="MFA_orgChart_migration.jar">
+        <element id="module-output" name="MFA_orgChart_migration" />
+        <element id="directory" name="META-INF">
+          <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+        </element>
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/libs/ojdbc7.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/sqljdbc4-2.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/poi-ooxml-schemas-3.17.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/commons-collections4-4.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/xmlbeans-2.6.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/poi-3.17.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/libs/poi-ooxml-3.17.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/config.properties" />
+      <element id="file-copy" path="$PROJECT_DIR$/HSTP org chart.xlsx" />
+    </root>
+  </artifact>
+</component>
