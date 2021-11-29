@@ -17,6 +17,13 @@
       <element id="file-copy" path="$PROJECT_DIR$/libs/poi-ooxml-3.17.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/config.properties" />
       <element id="file-copy" path="$PROJECT_DIR$/HSTP org chart.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/الجهات الخارجية.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/Role users  v1.1.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/MOMP Org Chart2.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/MOMP Org Chart.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/MFA org chart.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/Jazan Groups v1.1.xlsx" />
+      <element id="file-copy" path="$PROJECT_DIR$/Jazan External Entities.xlsx" />
     </root>
   </artifact>
 </component>
