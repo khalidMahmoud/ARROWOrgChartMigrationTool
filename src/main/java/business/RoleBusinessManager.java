@@ -13,4 +13,8 @@ public class RoleBusinessManager
     {
         return roleDao.selectRoleByName(jdbcConfig, name);
     }
+    public Role getRoleByUnitCode(JdbcConfig jdbcConfig, String name)
+    {
+        return roleDao.getRoleByUnitCode(jdbcConfig, name);
+    }
 }

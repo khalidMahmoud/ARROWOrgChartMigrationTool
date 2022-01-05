@@ -18,6 +18,7 @@ public class MainApp
     static String dbType = "";
     static boolean withUsers = false;
     static boolean migrateOrgChart = false;
+    static String userIdentifier = "";
     static List<RowModel> otherInternal = new ArrayList<>();
 
     public static void main(String[] args)
@@ -28,10 +29,12 @@ public class MainApp
         RoleBusinessManager roleBusinessManager = new RoleBusinessManager();
         UserBusinessManager userBusinessManager = new UserBusinessManager();
         LevelBusinessManager levelBusinessManager = new LevelBusinessManager();
+        boolean unitCode = false;
 
         Map<String, String> dbProperties = getDBProperties();
         jdbcConfig = new JdbcConfig(dbProperties.get("ip"), dbProperties.get("port"), dbProperties.get("database"), dbProperties.get("username"), dbProperties.get("password"), dbProperties.get("dbType"), dbProperties.get("connectionType"));
         withUsers = Boolean.parseBoolean(new Configuration().getExcelSheetName().get("withUsers").toString());
+        userIdentifier = new Configuration().getExcelSheetName().get("userIdentifier").toString();
         migrateOrgChart = Boolean.parseBoolean(new Configuration().getExcelSheetName().get("migrateOrgChart").toString());
 
         if (migrateOrgChart)
@@ -43,9 +46,7 @@ public class MainApp
             {
                 return rowModel.getType().equals("Internal");
             }).collect(Collectors.toList());
-            internal = internal.stream()
-                    .filter(x -> !x.getName().equals("إدارة شؤون اللجان"))
-                    .collect(Collectors.toList());
+            internal = internal.stream().filter(x -> !x.getName().equals("إدارة شؤون اللجان")).collect(Collectors.toList());
 
 
             List<RowModel> external = topLevel.stream().filter((RowModel rowModel) ->
@@ -70,20 +71,40 @@ public class MainApp
         if (withUsers)
         {
             System.out.println("Insert users to roles ...");
-            List<RoleUserModel> roleUsers = excelSheetBusiness.readRoleUsers(new Configuration().getExcelSheetName().get("roleUsersSheetName").toString());
+            Role role = null;
+            if (userIdentifier.equalsIgnoreCase("unitCode"))
+            {
+
+                unitCode = true;
+            } else if (userIdentifier.equalsIgnoreCase("roleName"))
+            {
+                unitCode = false;
+            } else
+            {
+                System.out.println("ERROR: ------------- Invalid userIdentifier value ------------- ");
+                return;
+            }
+            List<RoleUserModel> roleUsers = excelSheetBusiness.readRoleUsers(new Configuration().getExcelSheetName().get("roleUsersSheetName").toString(), unitCode);
             for (RoleUserModel roleUserModel : roleUsers)
             {
-                Role roleByName = roleBusinessManager.getRoleByName(jdbcConfig, roleUserModel.getRoleName().replaceFirst("\\s++$", ""));
-                if (roleByName != null)
+                if (unitCode)
+                {
+                    role = roleBusinessManager.getRoleByUnitCode(jdbcConfig, roleUserModel.getRoleName());
+                } else
+                {
+                    role = roleBusinessManager.getRoleByName(jdbcConfig, roleUserModel.getRoleName().replaceFirst("\\s++$", ""));
+                }
+
+                if (role != null)
                 {
                     User userByUserName = userBusinessManager.getUserByUserName(jdbcConfig, roleUserModel.getUserName().replaceFirst("\\s++$", ""));
                     if (userByUserName != null)
                     {
-                        if (!userBusinessManager.roleUserExist(jdbcConfig, roleByName.getId(), userByUserName.getId()))
-                            userBusinessManager.addUserToRole(jdbcConfig, roleByName.getId(), userByUserName.getId());
+                        if (!userBusinessManager.roleUserExist(jdbcConfig, role.getId(), userByUserName.getId()))
+                            userBusinessManager.addUserToRole(jdbcConfig, role.getId(), userByUserName.getId());
                         else
                         {
-                            System.out.println("User: " + userByUserName.getName() + " is already exist in role: " + roleByName.getName());
+                            System.out.println("User: " + userByUserName.getName() + " is already exist in role: " + role.getName());
                         }
                     } else
                     {

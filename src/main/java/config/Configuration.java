@@ -44,6 +44,7 @@ public class Configuration
             props.put("withCode",properties.getProperty("withCode"));
             props.put("dbType",properties.getProperty("dbType"));
             props.put("withUsers",properties.getProperty("withUsers"));
+            props.put("userIdentifier",properties.getProperty("userIdentifier"));
             props.put("roleUsersSheetName",properties.getProperty("roleUsersSheetName"));
             props.put("migrateOrgChart",properties.getProperty("migrateOrgChart"));
             return props;

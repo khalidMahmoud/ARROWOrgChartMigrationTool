@@ -97,7 +97,7 @@ public class ExcelSheetBusinessManager
                         default:
                     }
                 }
-                all.add(new RowModel((Integer) rowX.get(0), (String) rowX.get(1), (Integer) rowX.get(2), (Integer) rowX.get(3), (Integer) rowX.get(4), (String) rowX.get(5),(String) rowX.get(6),String.valueOf(rowX.get(7))));
+                all.add(new RowModel((Integer) rowX.get(0), (String) rowX.get(1), (Integer) rowX.get(2), (Integer) rowX.get(3), (Integer) rowX.get(4), (String) rowX.get(5), (String) rowX.get(6), String.valueOf(rowX.get(7))));
                 rowX = new ArrayList();
             }
         } catch (Exception e)
@@ -108,7 +108,7 @@ public class ExcelSheetBusinessManager
         return all;
     }
 
-    public List readRoleUsers(String sheetName)
+    public List readRoleUsers(String sheetName, boolean unitCode)
     {
         List all = new ArrayList();
         Map<String, Object> orgChartMap = new HashMap();
@@ -139,7 +139,15 @@ public class ExcelSheetBusinessManager
                         default:
                     }
                 }
-                all.add(new RoleUserModel((String) rowX.get(0),(String) rowX.get(1)));
+
+                if (unitCode)
+                {
+                    all.add(new RoleUserModel(String.valueOf(rowX.get(0)), (String) rowX.get(1)));
+                } else
+                {
+                    all.add(new RoleUserModel((String) rowX.get(0), (String) rowX.get(1)));
+                }
+
                 rowX = new ArrayList();
             }
         } catch (Exception e)
